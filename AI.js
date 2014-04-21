@@ -25,4 +25,16 @@ this.isOccupied = function(move) {
 	return true;
 }
 
+this.aiCheckRow = function(row) {
+    for(var x = 1; x < COL; x++) {
+        if($(board.rows[row].cells[x]).text() != $(board.rows[row].cells[0]).text()) {
+            return false;
+        }
+        else if($(board.rows[row].cells[x]).text() === $(board.rows[row].cells[0].text()) {
+
+        }
+    }
+    return $(board.rows[row].cells[0]).text();
+}
+
 }
