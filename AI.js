@@ -2,10 +2,6 @@ function AI(board) {
 
 this.board = board;
 
-this.AI = function() {
-
-}
-
 this.getMove = function(turn) {
 	var move = this.getRandMove(board);
 	if(turn == 1) {

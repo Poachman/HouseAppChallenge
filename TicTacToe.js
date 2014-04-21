@@ -37,6 +37,14 @@ var doAIMove = function() {
 	$(board.rows[move.y].cells[move.x]).text("O").addClass("new");
 	turn++;
 	$("#turn").text("X's turn");
+
+	if((team = hasWon()) !== false) {
+		$("#turn").text(team + " Won!");
+		$("td").unbind("click");
+	} else if(boardFull()) {
+		$("#turn").text("Cat's Game");
+		$("td").unbind("click");
+	}
 }
 
 var cellClick = function() {
@@ -74,8 +82,8 @@ var cellClick = function() {
 			$("td").unbind("click");
 		}
 	} else {
-		$(this).addClass("occupied");
-		window.setTimeout(function() {$(this).removeClass("occupied")}, 3000);
+		$(this).toggleClass("occupied");
+		window.setTimeout($(this).toggleClass("occupied"), 300);
 	}
 }
 
