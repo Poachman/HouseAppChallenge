@@ -82,8 +82,11 @@ var cellClick = function() {
 			$("td").unbind("click");
 		}
 	} else {
-		$(this).toggleClass("occupied");
-		window.setTimeout($(this).toggleClass("occupied"), 300);
+		var td = $(this);
+		td.addClass("occupied");
+		window.setTimeout(function() {
+			td.removeClass("occupied");
+		}, 250);
 	}
 }
 
