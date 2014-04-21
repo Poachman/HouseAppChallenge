@@ -38,13 +38,7 @@ var doAIMove = function() {
 	turn++;
 	$("#turn").text("X's turn");
 
-	if((team = hasWon()) !== false) {
-		$("#turn").text(team + " Won!");
-		$("td").unbind("click");
-	} else if(boardFull()) {
-		$("#turn").text("Cat's Game");
-		$("td").unbind("click");
-	}
+	checkWinLoss();
 }
 
 var cellClick = function() {
@@ -74,19 +68,23 @@ var cellClick = function() {
 
 		$("#turn").append("'s Turn");
 
-		if((team = hasWon()) !== false) {
-			$("#turn").text(team + " Won!");
-			$("td").unbind("click");
-		} else if(boardFull()) {
-			$("#turn").text("Cat's Game");
-			$("td").unbind("click");
-		}
+		checkWinLoss();
 	} else {
 		var td = $(this);
 		td.addClass("occupied");
 		window.setTimeout(function() {
 			td.removeClass("occupied");
 		}, 250);
+	}
+}
+
+var checkWinLoss = function() {
+	if((team = hasWon()) !== false) {
+		$("#turn").text(team + " Won!");
+		$("td").unbind("click");
+	} else if(boardFull()) {
+		$("#turn").text("Cat's Game");
+		$("td").unbind("click").addClass("occupied");
 	}
 }
 
@@ -162,5 +160,8 @@ function checkNegDiag() {
 }
 
 function boardFull() {
-
+	if($("td:empty").length == 0) {
+		return true;
+	}
+	return false;
 }
