@@ -2,11 +2,10 @@ var turn	= 0,
 	COL	= ROW = SIZE = 4,
 	AIEnabled = true,
 	Computer = {},
-	board	= document.getElementById('board');
+	board	= document.getElementById('board'),
+	wins = {X:0 , O:0}
 
 // TODO:
-// Check if board is full
-// Round scores
 // AI
 
 $(document).ready(function() {
@@ -82,6 +81,12 @@ var checkWinLoss = function() {
 	if((team = hasWon()) !== false) {
 		$("#turn").text(team + " Won!");
 		$("td").unbind("click");
+		if(team == "X") {
+			wins.X++;
+		} else {
+			wins.O++;
+		}
+		$("#wins").text("X: " + wins.X + " / O: " + wins.O);
 	} else if(boardFull()) {
 		$("#turn").text("Cat's Game");
 		$("td").unbind("click").addClass("occupied");
