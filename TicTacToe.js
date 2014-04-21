@@ -1,5 +1,7 @@
 var turn	= 0,
-	COL	= ROW = SIZE = 3,
+	COL	= ROW = SIZE = 4,
+	AIEnabled = true,
+	Computer = {},
 	board	= document.getElementById('board');
 
 // TODO:
@@ -8,6 +10,7 @@ var turn	= 0,
 // AI
 
 $(document).ready(function() {
+	generateBoard();
 	Computer = new AI(board);
 	$("td").click(cellClick);
 	$("#reset").click(function() {
@@ -18,6 +21,24 @@ $(document).ready(function() {
 	});
 });
 
+var generateBoard = function() {
+	for(var i = 0; i < SIZE; i++) {
+		var row = "<tr>";
+		for(var j = 0; j < SIZE; j++) {
+			row += "<td></td>";
+		}
+		row += "</tr>";
+		$("#board").append(row);
+	}
+}
+
+var doAIMove = function() {
+	var move = Computer.getMove(turn);
+	$(board.rows[move.y].cells[move.x]).text("O").addClass("new");
+	turn++;
+	$("#turn").text("X's turn");
+}
+
 var cellClick = function() {
 	Computer.board = board = document.getElementById('board');
 	if($(this).text() == "") {
@@ -25,21 +46,23 @@ var cellClick = function() {
 			case 0:
 				$(this).text("X").addClass("new");
 				$("#turn").text("O");
-				if(true) {
-					var move = Computer.getMove(turn);
-					$(board.rows[move.y].cells[move.x]).text("O").addClass("new");
-					turn++;
+				if(AIEnabled && !hasWon()) {
+					window.setTimeout(doAIMove, 1000);
 				}
+				turn++;
 			break;
 			case 1:
-				$(this).text("O").addClass("new");
+				if(!AIEnabled) {
+					$(this).text("O").addClass("new");
+					$("#turn").text("X");
+					turn++;
+				}
 				$("#turn").text("X");
 			break;
 			default:
 				$(this).text("?");
 			break;
 		}
-		turn++;
 
 		$("#turn").append("'s Turn");
 
@@ -50,6 +73,9 @@ var cellClick = function() {
 			$("#turn").text("Cat's Game");
 			$("td").unbind("click");
 		}
+	} else {
+		$(this).addClass("occupied");
+		window.setTimeout(function() {$(this).removeClass("occupied")}, 3000);
 	}
 }
 

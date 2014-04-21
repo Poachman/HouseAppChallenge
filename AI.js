@@ -8,10 +8,10 @@ this.AI = function() {
 
 this.getMove = function(turn) {
 	var move = this.getRandMove(board);
-	if(turn == 0) {
+	if(turn == 1) {
 		return move;
 	} else {
-
+		return move;
 	}
 }
 

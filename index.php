@@ -25,6 +25,7 @@
 		tr {transition: background 1s ease-in-out;}
 		td.new { font-size: 60pt; }
 		.win { background-color: #2A2; }
+		.occupied { background-color: #A22;}
 		h1 { text-align: center; }
 		button {
 			margin: 10px;
@@ -37,18 +38,8 @@
 	<script src="TicTacToe.js"></script>
 </head>
 <body>
-	<h1 id="turn">O's Turn</h2>
+	<h1 id="turn">X's Turn</h2>
 	<table id="board">
-	<?php
-		$size = 5;
-		for($i = 0; $i < $size; $i++) {
-			echo "<tr>";
-			for($j = 0;$j < $size; $j++) {
-				echo "<td></td>";
-			}
-			echo "</tr>";
-		}
-	?>
 	</table>
 	<button id="reset">Reset</button>
 </body>
