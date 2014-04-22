@@ -32,12 +32,13 @@ var generateBoard = function() {
 }
 
 var doAIMove = function() {
-	var move = Computer.getMove(turn);
-	$(board.rows[move.y].cells[move.x]).text("O").addClass("new");
-	turn++;
-	$("#turn").text("X's turn");
-
-	checkWinLoss();
+	if(!boardFull()) {
+		var move = Computer.getMove(turn);
+		$(board.rows[move.y].cells[move.x]).text("O").addClass("new");
+		turn++;
+		$("#turn").text("X's turn");
+	}
+		checkWinLoss();
 }
 
 var cellClick = function() {
