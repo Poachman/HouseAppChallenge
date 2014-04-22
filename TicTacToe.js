@@ -1,5 +1,5 @@
 var turn	= 0,
-	COL	= ROW = SIZE = 4,
+	COL	= ROW = SIZE = 3,
 	AIEnabled = true,
 	Computer = {},
 	board	= document.getElementById('board'),
