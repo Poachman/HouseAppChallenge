@@ -13,12 +13,19 @@ $(document).ready(function() {
 	Computer = new AI(board);
 	$("td").click(cellClick);
 	$("#reset").click(function() {
-		$("td").text("").click(cellClick).removeClass("win").removeClass("new");
+		$("td").text("").click(cellClick).removeClass("win").removeClass("new").removeClass("occupied");
 		$("tr").removeClass("win");
-		$("#turn").text("O's Turn");
+		$("#turn").text("X's Turn");
 		turn = 0;
 	});
+	$(":radio").click(AIButtonHandler);
 });
+
+var AIButtonHandler = function() {
+	console.log("asdf");
+	$(":radio").next().removeClass("btn");
+	$(this).next().addClass("btn");
+}
 
 var generateBoard = function() {
 	for(var i = 0; i < SIZE; i++) {
