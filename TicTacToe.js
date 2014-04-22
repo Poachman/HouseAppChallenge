@@ -18,13 +18,18 @@ $(document).ready(function() {
 		$("#turn").text("X's Turn");
 		turn = 0;
 	});
-	$(":radio").click(AIButtonHandler);
+	$("label").click(AIButtonHandler);
 });
 
 var AIButtonHandler = function() {
 	console.log("asdf");
-	$(":radio").next().removeClass("btn");
-	$(this).next().addClass("btn");
+	$("label").removeClass("btn");
+	$(this).addClass("btn");
+	if($(this).prev().attr("id") == "Disabled") {
+		AIEnabled = false;
+	} else if ($(this).prev().attr("id") == "Enabled") {
+		AIEnabled = true;
+	}
 }
 
 var generateBoard = function() {
@@ -102,10 +107,10 @@ var checkWinLoss = function() {
 }
 
 var hasWon = function() {
+	var team = false;
 	for(var y = 0; y < COL; y++) {
 		if((team = checkRow(y)) !== false) {
 			$($("tr")[y]).addClass("win");
-			return team;
 		}
 	}
 	for(var x = 0; x < ROW; x++) {
@@ -113,23 +118,20 @@ var hasWon = function() {
 			for(var i = 0; i < COL; i++) {
 				$(board.rows[i].cells[x]).addClass("win");
 			}
-			return team;
 		}
 	}
 	if((team = checkDiag()) !== false) {
 		for(var i = 0; i < COL; i++) {
 			$(board.rows[i].cells[i]).addClass("win");
 		}
-		return team;
 	}
 	if((team = checkNegDiag()) !== false) {
 		for(var i = 0; i < COL; i++) {
 			$(board.rows[ROW - i - 1].cells[i]).addClass("win");
 		}
-		return team;
 	}
 
-	return false;
+	return team;
 }
 
 function checkRow(row) {
@@ -174,6 +176,13 @@ function checkNegDiag() {
 
 function boardFull() {
 	if($("td:empty").length == 0) {
+		return true;
+	}
+	return false;
+}
+
+function boardEmpty() {
+	if($("td:empty").length == SIZE * SIZE) {
 		return true;
 	}
 	return false;

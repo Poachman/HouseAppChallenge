@@ -38,7 +38,7 @@ h1, h2 { text-align: center; }
 	float: right;
 }
 
-.btn {
+.btn, label:active {
 	margin: 50px 10px 10px 10px;
 	padding: 5px 10px;
 	border-radius: 2px;
@@ -52,8 +52,8 @@ h1, h2 { text-align: center; }
 	color: #ebe2ca;
 }
 
-.btn:active {
-	background-image: linear-gradient(to top,#777,#555);
+.btn:active, label:active {
+	background-image: linear-gradient(to top,#777,#444);
 }
 
 input[type="radio"] { display: none; }
@@ -67,7 +67,4 @@ label {
 	border-radius: 2px;
 	font-size: 24pt;
 	text-shadow: 0 1px 1px rgba(40, 40, 40, 0.75);
-}
-
-input[type="radio"]:checked + label {
 }
