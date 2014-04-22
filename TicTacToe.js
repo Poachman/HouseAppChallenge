@@ -50,7 +50,7 @@ var doAIMove = function() {
 		turn++;
 		$("#turn").text("X's turn");
 	}
-		checkWinLoss();
+	checkWinLoss();
 }
 
 var cellClick = function() {
@@ -107,31 +107,35 @@ var checkWinLoss = function() {
 }
 
 var hasWon = function() {
-	var team = false;
+	var winningTeam = false;
 	for(var y = 0; y < COL; y++) {
 		if((team = checkRow(y)) !== false) {
 			$($("tr")[y]).addClass("win");
+			winningTeam = team;
 		}
 	}
 	for(var x = 0; x < ROW; x++) {
 		if((team = checkCol(x)) !== false) {
 			for(var i = 0; i < COL; i++) {
 				$(board.rows[i].cells[x]).addClass("win");
+			winningTeam = team;
 			}
 		}
 	}
 	if((team = checkDiag()) !== false) {
 		for(var i = 0; i < COL; i++) {
 			$(board.rows[i].cells[i]).addClass("win");
+			winningTeam = team;
 		}
 	}
 	if((team = checkNegDiag()) !== false) {
 		for(var i = 0; i < COL; i++) {
 			$(board.rows[ROW - i - 1].cells[i]).addClass("win");
+			winningTeam = team;
 		}
 	}
 
-	return team;
+	return winningTeam;
 }
 
 function checkRow(row) {
