@@ -48,7 +48,7 @@ var cellClick = function() {
 				$(this).text("X").addClass("new");
 				$("#turn").text("O");
 				if(AIEnabled && !hasWon()) {
-					window.setTimeout(doAIMove, 1000);
+					window.setTimeout(doAIMove, 300);
 				}
 				turn++;
 			break;
