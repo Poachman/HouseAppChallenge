@@ -1,5 +1,5 @@
 var turn	= 0,
-	COL	= ROW = SIZE = 3,
+	COL	= ROW = SIZE = 4,
 	AIEnabled = true,
 	Computer = {},
 	board	= document.getElementById('board'),
@@ -13,7 +13,10 @@ $(document).ready(function() {
 	Computer = new AI(board);
 	$("td").click(cellClick);
 	$("#reset").click(function() {
-		$("td").text("").click(cellClick).removeClass("win").removeClass("new").removeClass("occupied");
+		$("td").text("").click(cellClick)
+			.removeClass("win")
+			.removeClass("new")
+			.removeClass("occupied");
 		$("tr").removeClass("win");
 		$("#turn").text("X's Turn");
 		turn = 0;

@@ -11,6 +11,18 @@ this.getMove = function(turn) {
 	}
 }
 
+this.rankCells = function() {
+	var possibleMoves = [
+		[0,0,0],
+		[0,0,0],
+		[0,0,0]
+	];
+}
+
+this.searchRow = function(row) {
+
+}
+
 this.getRandMove = function() {
 	do {
 		move = {x: Math.floor(Math.random() * 200) % SIZE, y: Math.floor(Math.random() * 200) % SIZE}
