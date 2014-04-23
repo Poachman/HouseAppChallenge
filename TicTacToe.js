@@ -1,5 +1,5 @@
 var turn	= 0,
-	COL	= ROW = SIZE = 4,
+	SIZE = 4,
 	AIEnabled = true,
 	Computer = {},
 	board	= document.getElementById('board'),
@@ -111,28 +111,28 @@ var checkWinLoss = function() {
 
 var hasWon = function() {
 	var winningTeam = false;
-	for(var y = 0; y < COL; y++) {
+	for(var y = 0; y < SIZE; y++) {
 		if((team = checkRow(y)) !== false) {
 			$($("tr")[y]).addClass("win");
 			winningTeam = team;
 		}
 	}
-	for(var x = 0; x < ROW; x++) {
+	for(var x = 0; x < SIZE; x++) {
 		if((team = checkCol(x)) !== false) {
-			for(var i = 0; i < COL; i++) {
+			for(var i = 0; i < SIZE; i++) {
 				$(board.rows[i].cells[x]).addClass("win");
 			winningTeam = team;
 			}
 		}
 	}
 	if((team = checkDiag()) !== false) {
-		for(var i = 0; i < COL; i++) {
+		for(var i = 0; i < SIZE; i++) {
 			$(board.rows[i].cells[i]).addClass("win");
 			winningTeam = team;
 		}
 	}
 	if((team = checkNegDiag()) !== false) {
-		for(var i = 0; i < COL; i++) {
+		for(var i = 0; i < SIZE; i++) {
 			$(board.rows[ROW - i - 1].cells[i]).addClass("win");
 			winningTeam = team;
 		}
@@ -142,7 +142,7 @@ var hasWon = function() {
 }
 
 function checkRow(row) {
-	for(var x = 1; x < COL; x++) {
+	for(var x = 1; x < SIZE; x++) {
 		if($(board.rows[row].cells[x]).text() != $(board.rows[row].cells[0]).text()
 		|| $(board.rows[row].cells[0]).text() == "") {
 			return false;
@@ -152,7 +152,7 @@ function checkRow(row) {
 }
 
 function checkCol(col) {
-	for(var y = 1; y < ROW; y++) {
+	for(var y = 1; y < SIZE; y++) {
 		if($(board.rows[y].cells[col]).text() != $(board.rows[0].cells[col]).text()
 		|| $(board.rows[0].cells[col]).text() == "") {
 			return false;
@@ -162,7 +162,7 @@ function checkCol(col) {
 }
 
 function checkDiag() {
-	for(var i = 1; i < COL; i++) {
+	for(var i = 1; i < SIZE; i++) {
 		if($(board.rows[i].cells[i]).text() != $(board.rows[0].cells[0]).text()
 		|| $(board.rows[0].cells[0]).text() == "") {
 			return false;
@@ -172,13 +172,13 @@ function checkDiag() {
 }
 
 function checkNegDiag() {
-	for(var i = 1; i < COL; i++) {
-		if($(board.rows[ROW - i - 1].cells[i]).text() != $(board.rows[ROW - 1].cells[0]).text()
-		|| $(board.rows[ROW - 1].cells[0]).text() == "") {
+	for(var i = 1; i < SIZE; i++) {
+		if($(board.rows[SIZE - i - 1].cells[i]).text() != $(board.rows[SIZE - 1].cells[0]).text()
+		|| $(board.rows[SIZE - 1].cells[0]).text() == "") {
 			return false;
 		}
 	}
-	return $(board.rows[ROW - 1].cells[0]).text();
+	return $(board.rows[SIZE - 1].cells[0]).text();
 }
 
 function boardFull() {
