@@ -1,12 +1,11 @@
 var turn	= 0,
-	COL	= ROW = SIZE = 4,
+	COL	= ROW = SIZE = 3,
 	AIEnabled = true,
 	Computer = {},
-	board	= document.getElementById('board');
+	board	= document.getElementById('board'),
+	wins = {X:0 , O:0}
 
 // TODO:
-// Check if board is full
-// Round scores
 // AI
 
 $(document).ready(function() {
@@ -14,12 +13,24 @@ $(document).ready(function() {
 	Computer = new AI(board);
 	$("td").click(cellClick);
 	$("#reset").click(function() {
-		$("td").text("").click(cellClick).removeClass("win").removeClass("new");
+		$("td").text("").click(cellClick).removeClass("win").removeClass("new").removeClass("occupied");
 		$("tr").removeClass("win");
-		$("#turn").text("O's Turn");
+		$("#turn").text("X's Turn");
 		turn = 0;
 	});
+	$("label").click(AIButtonHandler);
 });
+
+var AIButtonHandler = function() {
+	console.log("asdf");
+	$("label").removeClass("btn");
+	$(this).addClass("btn");
+	if($(this).prev().attr("id") == "Disabled") {
+		AIEnabled = false;
+	} else if ($(this).prev().attr("id") == "Enabled") {
+		AIEnabled = true;
+	}
+}
 
 var generateBoard = function() {
 	for(var i = 0; i < SIZE; i++) {
@@ -33,18 +44,13 @@ var generateBoard = function() {
 }
 
 var doAIMove = function() {
-	var move = Computer.getMove(turn);
-	$(board.rows[move.y].cells[move.x]).text("O").addClass("new");
-	turn++;
-	$("#turn").text("X's turn");
-
-	if((team = hasWon()) !== false) {
-		$("#turn").text(team + " Won!");
-		$("td").unbind("click");
-	} else if(boardFull()) {
-		$("#turn").text("Cat's Game");
-		$("td").unbind("click");
+	if(!boardFull()) {
+		var move = Computer.getMove(turn);
+		$(board.rows[move.y].cells[move.x]).text("O").addClass("new");
+		turn++;
+		$("#turn").text("X's turn");
 	}
+	checkWinLoss();
 }
 
 var cellClick = function() {
@@ -55,7 +61,7 @@ var cellClick = function() {
 				$(this).text("X").addClass("new");
 				$("#turn").text("O");
 				if(AIEnabled && !hasWon()) {
-					window.setTimeout(doAIMove, 1000);
+					window.setTimeout(doAIMove, 300);
 				}
 				turn++;
 			break;
@@ -74,48 +80,62 @@ var cellClick = function() {
 
 		$("#turn").append("'s Turn");
 
-		if((team = hasWon()) !== false) {
-			$("#turn").text(team + " Won!");
-			$("td").unbind("click");
-		} else if(boardFull()) {
-			$("#turn").text("Cat's Game");
-			$("td").unbind("click");
-		}
+		checkWinLoss();
 	} else {
-		$(this).toggleClass("occupied");
-		window.setTimeout($(this).toggleClass("occupied"), 300);
+		var td = $(this);
+		td.addClass("occupied");
+		window.setTimeout(function() {
+			td.removeClass("occupied");
+		}, 250);
+	}
+}
+
+var checkWinLoss = function() {
+	if((team = hasWon()) !== false) {
+		$("#turn").text(team + " Won!");
+		$("td").unbind("click");
+		if(team == "X") {
+			wins.X++;
+		} else {
+			wins.O++;
+		}
+		$("#wins").text("X: " + wins.X + " / O: " + wins.O);
+	} else if(boardFull()) {
+		$("#turn").text("Cat's Game");
+		$("td").unbind("click").addClass("occupied");
 	}
 }
 
 var hasWon = function() {
+	var winningTeam = false;
 	for(var y = 0; y < COL; y++) {
 		if((team = checkRow(y)) !== false) {
 			$($("tr")[y]).addClass("win");
-			return team;
+			winningTeam = team;
 		}
 	}
 	for(var x = 0; x < ROW; x++) {
 		if((team = checkCol(x)) !== false) {
 			for(var i = 0; i < COL; i++) {
 				$(board.rows[i].cells[x]).addClass("win");
+			winningTeam = team;
 			}
-			return team;
 		}
 	}
 	if((team = checkDiag()) !== false) {
 		for(var i = 0; i < COL; i++) {
 			$(board.rows[i].cells[i]).addClass("win");
+			winningTeam = team;
 		}
-		return team;
 	}
 	if((team = checkNegDiag()) !== false) {
 		for(var i = 0; i < COL; i++) {
 			$(board.rows[ROW - i - 1].cells[i]).addClass("win");
+			winningTeam = team;
 		}
-		return team;
 	}
 
-	return false;
+	return winningTeam;
 }
 
 function checkRow(row) {
@@ -159,5 +179,15 @@ function checkNegDiag() {
 }
 
 function boardFull() {
+	if($("td:empty").length == 0) {
+		return true;
+	}
+	return false;
+}
 
+function boardEmpty() {
+	if($("td:empty").length == SIZE * SIZE) {
+		return true;
+	}
+	return false;
 }

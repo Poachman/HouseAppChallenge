@@ -1,0 +1,70 @@
+body {
+	width: 600px;
+	margin: 0 auto;
+	background-color: #333;
+	color: #ebe2ca;
+	font-family: sans-serif;
+}
+table {
+	border-collapse: collapse;
+	margin: 0 auto;
+}
+td {
+	width: 110px;
+	height: 110px;
+	border: 3px solid #ebe2ca;
+	text-align: center;
+	font-size: 0pt;
+	transition: font-size 0.3s ease-in-out, background 0.05s linear;
+}
+tr {transition: background 0.05s linear;}
+td.new { font-size: 60pt; }
+.win { background-color: #2A2; }
+.occupied {
+	background-color: #A22;
+}
+h1, h2 { text-align: center; }
+#options {
+	font-size: 24pt;
+	margin: 30px 10px;
+}
+#options div span {
+	display: block;
+	margin-bottom: 20px;
+}
+#options div {
+	display: inline-block;
+	text-align: center;
+	float: right;
+}
+
+.btn, label:active {
+	margin: 50px 10px 10px 10px;
+	padding: 5px 10px;
+	border-radius: 2px;
+	font-size: 24pt;
+	background-image: linear-gradient(to top,#969696,#727272);
+	box-shadow: inset 0 1px 6px rgba(41, 41, 41, 0.2),
+					  0 1px 2px rgba(0, 0, 0, 0.05);
+	cursor: default;
+	border-color: transparent;
+	text-shadow: 0 1px 1px rgba(40, 40, 40, 0.75);
+	color: #ebe2ca;
+}
+
+.btn:active, label:active {
+	background-image: linear-gradient(to top,#777,#444);
+}
+
+input[type="radio"] { display: none; }
+
+label {
+	padding: 5px 10px;
+	border-radius: 2px;
+	font-size: 24pt;
+	margin: 10px;
+	padding: 5px 10px;
+	border-radius: 2px;
+	font-size: 24pt;
+	text-shadow: 0 1px 1px rgba(40, 40, 40, 0.75);
+}
