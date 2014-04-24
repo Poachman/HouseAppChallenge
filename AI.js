@@ -90,7 +90,7 @@ this.getCellRank = function(x, y) {
 				diagCount.X++;
 			}
 		}
-		if(this.isOnNegDiag() && i != y) {  // Neg Diag
+		if(this.isOnNegDiag()) {  // Neg Diag
 			console.log("diag (" + x + ", " + y +")");
 			console.log(this.board.rows[i].cells[(this.size - 1) - i].value);
 			if($(this.board.rows[i].cells[(this.size - 1) - i]).text() == "O") { // if own move
@@ -126,8 +126,9 @@ this.getCellRank = function(x, y) {
 }
 
 this.isOnNegDiag = function(x, y) {
-	for(int i = 0; i < this.size; i++) {
-		if((x == (this.size - 1) - i) && (y == i)) {
+	for(var i = 0; i < this.size; i++) {
+		if((y == ((this.size - 1) - i)) && (x == i)) {
+			console.log(diag);
 			return true;
 		}
 	}
