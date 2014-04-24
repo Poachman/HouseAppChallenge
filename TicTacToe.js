@@ -5,9 +5,6 @@ var turn	= 0,
 	board	= document.getElementById('board'),
 	wins = {X:0 , O:0}
 
-// TODO:
-// AI
-
 $(document).ready(function() {
 	generateBoard();
 	Computer = new AI(board, SIZE);
