@@ -31,7 +31,7 @@ this.printBoardMoves = function() {
 }
 
 this.rankCells = function() {
-	console.clear();
+	// TODO: Modify to pick top 3 or so moves
 	this.clearPossibleMoves();
 	var bestMove = {x:-1, y:-1, value:-100};
 	for (var y = 0; y < this.size; y++) {
@@ -111,14 +111,17 @@ this.getCellRank = function(x, y) {
 
 
 	var cell = {
-		X: rowCount.X + colCount.X + diagCount.X,
-		O: rowCount.O + colCount.O + diagCount.O,
-		B: rowCount.B + colCount.B + diagCount.B
+		X: rowCount.X + colCount.X + diagCount.X + negDiagCount.X,
+		O: rowCount.O + colCount.O + diagCount.O + negDiagCount.O,
+		B: rowCount.B + colCount.B + diagCount.B + negDiagCount.B,
 	};
 
 	rank += cell.O ^ 3;
 	rank += cell.X ^ 2;
 	rank -= cell.B ^ 2;
+
+	// TODO:
+	// if both x & o in the col / row / diag make value 0
 
 	return rank;
 }
