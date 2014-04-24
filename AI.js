@@ -90,16 +90,19 @@ this.getCellRank = function(x, y) {
 				diagCount.X++;
 			}
 		}
-		if(isOnNegDiag(x, y)) {  // Neg Diag
-			if($(this.board.rows[i].cells[i]).text() == "O") { // if own move
+		if(this.isOnNegDiag() && i != y) {  // Neg Diag
+			console.log("diag (" + x + ", " + y +")");
+			console.log(this.board.rows[i].cells[(this.size - 1) - i].value);
+			if($(this.board.rows[i].cells[(this.size - 1) - i]).text() == "O") { // if own move
 				negDiagCount.O++;
-			} else if($(this.board.rows[i].cells[i]).text() == "") { // if empty
+			} else if($(this.board.rows[i].cells[(this.size - 1) - i]).text() == "") { // if empty
 				negDiagCount.B++;
 			} else {
 				negDiagCount.X++;
 			}
 		}
 	}
+
 	// block if opponent about to win
 	if(colCount.X == (this.size - 1) || rowCount.X == (this.size -1) || diagCount.X == (this.size -1) || negDiagCount.X == (this.size -1))
 		rank += this.size * 10;
@@ -123,8 +126,8 @@ this.getCellRank = function(x, y) {
 }
 
 this.isOnNegDiag = function(x, y) {
-	for(i = 0; i < this.size; i++) {
-		if((x == this.size - i) && (y == i)) {
+	for(int i = 0; i < this.size; i++) {
+		if((x == (this.size - 1) - i) && (y == i)) {
 			return true;
 		}
 	}
