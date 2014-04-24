@@ -36,6 +36,7 @@ h1, h2 { text-align: center; }
 	display: inline-block;
 	text-align: center;
 	float: right;
+	border: 2px solid;
 }
 
 .btn, label:active {
