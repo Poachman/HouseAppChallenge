@@ -1,5 +1,5 @@
 var turn	= 0,
-	SIZE = 4,
+	SIZE = 5,
 	AIEnabled = true,
 	Computer = {},
 	board	= document.getElementById('board'),
@@ -10,7 +10,7 @@ var turn	= 0,
 
 $(document).ready(function() {
 	generateBoard();
-	Computer = new AI(board);
+	Computer = new AI(board, SIZE);
 	$("td").click(cellClick);
 	$("#reset").click(function() {
 		$("td").text("").click(cellClick)
@@ -133,7 +133,7 @@ var hasWon = function() {
 	}
 	if((team = checkNegDiag()) !== false) {
 		for(var i = 0; i < SIZE; i++) {
-			$(board.rows[ROW - i - 1].cells[i]).addClass("win");
+			$(board.rows[SIZE - i - 1].cells[i]).addClass("win");
 			winningTeam = team;
 		}
 	}
