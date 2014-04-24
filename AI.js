@@ -60,6 +60,7 @@ this.getCellRank = function(x, y) {
 	var colCount = {X: 0, O: 0, B: 0},
 	rowCount = {X: 0, O: 0, B: 0},
 	diagCount = {X: 0, O: 0, B: 0},
+	negDiagCount = {X: 0, O: 0, B: 0},
 	rank = 0;
 	for(var i = 0; i < this.size; i++) {
 		if(i != x) {
@@ -80,7 +81,7 @@ this.getCellRank = function(x, y) {
 				colCount.X++;
 			}
 		}
-		if(y == x && i != x) {
+		if(y == x && i != x) { // Diag
 			if($(this.board.rows[i].cells[i]).text() == "O") { // if own move
 				diagCount.O++;
 			} else if($(this.board.rows[i].cells[i]).text() == "") { // if empty
@@ -89,14 +90,24 @@ this.getCellRank = function(x, y) {
 				diagCount.X++;
 			}
 		}
+		if(isOnNegDiag(x, y)) {  // Neg Diag
+			if($(this.board.rows[i].cells[i]).text() == "O") { // if own move
+				negDiagCount.O++;
+			} else if($(this.board.rows[i].cells[i]).text() == "") { // if empty
+				negDiagCount.B++;
+			} else {
+				negDiagCount.X++;
+			}
+		}
 	}
 	// block if opponent about to win
-	if(colCount.X == (this.size - 1) || rowCount.X == (this.size -1) || diagCount.X == (this.size -1))
+	if(colCount.X == (this.size - 1) || rowCount.X == (this.size -1) || diagCount.X == (this.size -1) || negDiagCount.X == (this.size -1))
 		rank += this.size * 10;
 
 	// Win
-	if(colCount.O == (this.size -1) || rowCount.O == (this.size -1) || diagCount.O == (this.size -1))
+	if(colCount.O == (this.size -1) || rowCount.O == (this.size -1) || negDiagCount.O == (this.size -1))
 		rank += this.size * 20;
+
 
 	var cell = {
 		X: rowCount.X + colCount.X + diagCount.X,
@@ -109,6 +120,15 @@ this.getCellRank = function(x, y) {
 	rank -= cell.B ^ 2;
 
 	return rank;
+}
+
+this.isOnNegDiag = function(x, y) {
+	for(i = 0; i < this.size; i++) {
+		if((x == this.size - i) && (y == i)) {
+			return true;
+		}
+	}
+	return false;
 }
 
 this.getRandMove = function() {
