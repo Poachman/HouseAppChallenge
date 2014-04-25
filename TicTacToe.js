@@ -1,5 +1,5 @@
 var turn	= 0,
-	SIZE = 5,
+	SIZE	= 5,
 	AIEnabled = true,
 	Computer = {},
 	board	= document.getElementById('board'),
@@ -19,7 +19,13 @@ $(document).ready(function() {
 		turn = 0;
 	});
 	$("label").click(AIButtonHandler);
+	$("#sizeSelect").change(sizeChange);
 });
+
+var sizeChange = function() {
+	SIZE = this.value.substr(0,1);
+	Computer.generateBoard();
+}
 
 var AIButtonHandler = function() {
 	console.log("asdf");
