@@ -4,7 +4,7 @@ function AI(board, size) {
     this.possibleMoves = new Array();
     this.size = size;
 
-    this.generateBoard = function(board,size){
+    this.generatePossibleMoves = function(board,size){
         for (var y = 0; y < this.size; y++) {
             this.possibleMoves.push(new Array());
             for (var x = 0; x < this.size; x++) {
@@ -13,7 +13,7 @@ function AI(board, size) {
         }
     }
 
-    return generateBoard();
+    generatePossibleMoves();
 
     this.getMove = function(turn) {
         var move = this.getRandMove(board);
