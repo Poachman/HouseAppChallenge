@@ -13,7 +13,7 @@ function AI(board, size) {
         }
     }
 
-    generatePossibleMoves();
+    this.generatePossibleMoves();
 
     this.getMove = function(turn) {
         var move = this.getRandMove(board);
