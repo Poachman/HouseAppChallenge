@@ -2,6 +2,7 @@ function AI(board, size) {
 
     this.board = board;
     this.possibleMoves = new Array();
+    this.cellRanks = new Array(size^2)
     this.size = size;
 
     this.generateBoard = function(board,size){
@@ -42,6 +43,7 @@ function AI(board, size) {
         for (var y = 0; y < this.size; y++) {
             for (var x = 0; x < this.size; x++) {
                 if($(this.board.rows[y].cells[x]).text() == "") {
+                    this.cellRanks[x * size + y ] = {X: x, Y: y, rank: this.getCellRank()};
                     this.possibleMoves[y][x] = this.getCellRank(x, y);
                     if(this.possibleMoves[y][x] > bestMove.value) {
                         bestMove = {x: x, y: y, value: this.possibleMoves[y][x]};
@@ -129,12 +131,14 @@ function AI(board, size) {
         // if both x & o in the col / row / diag make value 0
 
         return rank;
+
+        var totalRank = 0;
+        totalRank += rank;
     }
 
-    var totalRank = 0;
-    this.rankDecision = function(rank){
 
-    }
+
+
     this.calcTotalRank = function(rank,move){
         if(this.isOccupied(move) == false){
            totalRank += rank;
