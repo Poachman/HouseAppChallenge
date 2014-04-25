@@ -13,12 +13,25 @@
 	<table id="board"></table>
 
 	<div id="options">
-		<button class="btn" id="reset">New Game</button>
+		<div>
+			<button class="btn" id="reset">New Game</button>
+		</div>
+		<div>
+			<span id="sizeTitle">Size</span>
+			<select id="sizeSelect">
+				<option>3x3</option>
+				<option>4x4</option>
+				<option>5x5</option>
+				<option>6x6</option>
+				<option>7x7</option>
+			</select>
+		</div>
 		<div>
 			<span>Player 2</span>
 			<input type="radio" id="Enabled" name="AI" checked /><label class="btn" for="AIEnabled">AI</label>
 			<input type="radio" id="Disabled" name="AI" /><label for="AIDisabled">Human</label>
 		</div>
+
 	</div>
 </body>
 </html>
