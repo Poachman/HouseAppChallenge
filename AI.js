@@ -43,7 +43,7 @@ function AI(board, size) {
         for (var y = 0; y < this.size; y++) {
             for (var x = 0; x < this.size; x++) {
                 if($(this.board.rows[y].cells[x]).text() == "") {
-                    this.cellRanks[x * size + y ] = {X: x, Y: y, rank: this.getCellRank()};
+                    this.cellRanks[x * size + y ] = {X: x, Y: y, rank: this.getCellRank(x,y)};
                     this.possibleMoves[y][x] = this.getCellRank(x, y);
                     if(this.possibleMoves[y][x] > bestMove.value) {
                         bestMove = {x: x, y: y, value: this.possibleMoves[y][x]};
@@ -116,11 +116,107 @@ function AI(board, size) {
         //if(colCount.O == (this.size -1) || rowCount.O == (this.size -1) || diagCount.O == (this.size -1) || negDiagCount.O == (this.size -1))
             //rank += this.size * 20;
 
+        var bestMove = {X: 0, O: 0, B: 0};
+
+        if(colCount.B < rowCount.B && colCount.B < diagCount.B && colCount.B < negDiagCount.B && (colCount.X > 0 || colCount.O > 0)){
+            bestMove = colCount;
+        } else if(rowCount.B < colCount.B && rowCount.B < diagCount.B && rowCount.B < negDiagCount.B && (rowCount.X > 0 || rowCount.O > 0)){
+            bestMove = rowCount;
+        } else if(diagCount.B < colCount.B && diagCount.B < rowCount.B && diagCount.B < negDiagCount.B && (diagCount.X > 0 || diagCount.O > 0)){
+            bestMove = diagCount;
+        } else if(negDiagCount.B < colCount.B && negDiagCount.B < rowCount.B && negDiagCount.B < diagCount.B && (negDiagCount.X > 0 || negDiagCount.O > 0)){
+            bestMove = negDiagCount;
+        }
+        /*} else if(colCount.B == rowCount.B){
+            var equalChance = Math.random();
+            if(equalChance < .5){
+                bestMove =  colCount;
+            } else {
+                bestMove =  rowCount;
+            }
+        } else if(colCount.B == diagCount.B){
+            var equalChance = Math.random();
+            if(equalChance < .5){
+                bestMove =  colCount;
+            } else {
+                bestMove =  diagCount;
+            }
+        } else if(colCount.B == negDiagCount.B){
+            var equalChance = Math.random();
+            if(equalChance < .5){
+                bestMove =  colCount;
+            } else {
+                bestMove =  negDiagCount;
+            }
+        } else if(rowCount.B == colCount.B){
+            var equalChance = Math.random();
+            if(equalChance < .5){
+                bestMove =  rowCount;
+            } else {
+                bestMove =  colCount;
+            }
+        } else if(rowCount.B == diagCount.B){
+            var equalChance = Math.random();
+            if(equalChance < .5){
+                bestMove =  rowCount;
+            } else {
+                bestMove =  diagCount;
+            }
+        } else if(rowCount.B == negDiagCount.B){
+            var equalChance = Math.random();
+            if(equalChance < .5){
+                bestMove =  rowCount;
+            } else {
+                bestMove =  negDiagCount;
+            }
+        } else if(diagCount.B == colCount.B){
+            var equalChance = Math.random();
+            if(equalChance < .5){
+                bestMove =  diagCount;
+            } else {
+                bestMove =  colCount;
+            }
+        } else if(diagCount.B == rowCount.B){
+            var equalChance = Math.random();
+            if(equalChance < .5){
+                bestMove =  diagCount;
+            } else {
+                bestMove =  rowCount;
+            }
+        } else if(diagCount.B == negDiagCount.B){
+            var equalChance = Math.random();
+            if(equalChance < .5){
+                bestMove =  diagCount;
+            } else {
+                bestMove =  negDiagCount;
+            }
+        } else if(negDiagCount.B == colCount.B){
+            var equalChance = Math.random();
+            if(equalChance < .5){
+                bestMove =  negDiagCount;
+            } else {
+                bestMove =  colCount;
+            }
+        } else if(negDiagCount.B == rowCount.B){
+            var equalChance = Math.random();
+            if(equalChance < .5){
+                bestMove =  negDiagCount;
+            } else {
+                bestMove =  rowCount;
+            }
+        } else if(negDiagCount.B == diagCount.B){
+            var equalChance = Math.random();
+            if(equalChance < .5){
+                bestMove =  negDiagCount;
+            } else {
+                bestMove =  diagCount;
+            }*/
+
 
         var cell = {
-            X: rowCount.X + colCount.X + diagCount.X + negDiagCount.X,
-            O: rowCount.O + colCount.O + diagCount.O + negDiagCount.O,
-            B: rowCount.B + colCount.B + diagCount.B + negDiagCount.B
+            X: bestMove.X,
+            O: bestMove.O,
+            B: bestMove.B
         };
 
         rank += cell.O ^ 3;
