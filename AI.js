@@ -129,9 +129,10 @@ function AI(board, size) {
         //Check to see if line has x or o THEN check for least blanks.
         if(colCount.X > 0 || colCount.O > 0){
             if(colCount.B < rowCount.B && colCount.B < diagCount.B && colCount.B < negDiagCount.B && (colCount.X > 0 || colCount.O > 0){
-            bestMove = colCount;
-            }} else if(rowCount.B < colCount.B && rowCount.B < diagCount.B && rowCount.B < negDiagCount.B && (rowCount.X > 0 || rowCount.O > 0)){
-            bestMove = rowCount;
+                bestMove = colCount;
+            } else if(rowCount.B < colCount.B && rowCount.B < diagCount.B && rowCount.B < negDiagCount.B && (rowCount.X > 0 || rowCount.O > 0)){
+                bestMove = rowCount;
+            }
         } else if(rowCount.X > 0 || rowCount.O > 0){
             if(diagCount.B < colCount.B && diagCount.B < rowCount.B && diagCount.B < negDiagCount.B && (diagCount.X > 0 || diagCount.O > 0)){
             bestMove = diagCount;
