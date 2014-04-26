@@ -118,16 +118,22 @@ function AI(board, size) {
 
         var bestMove = {X: 0, O: 0, B: 0};
 
-        if(colCount.B < rowCount.B && colCount.B < diagCount.B && colCount.B < negDiagCount.B && (colCount.X > 0 || colCount.O > 0)){
+        //TODO:
+        //says must have least amount of blanks AND at least one x or o. If something has least blanks but no x or o, any other line with an x or o
+        //that has least amount of blanks but still has x or o will not count because it doesn't technically have least blanks. May have 1 but a
+        //non-valid diagonal will still have 0. Exclude these from check or change logic to count the line with least blanks out of lines with x or o.
+        //Check to see if line has x or o THEN check for least blanks.
+        if(colCount.X > 0 || colCount.O > 0){
+            if(colCount.B < rowCount.B && colCount.B < diagCount.B && colCount.B < negDiagCount.B && (colCount.X > 0 || colCount.O > 0){
             bestMove = colCount;
-        } else if(rowCount.B < colCount.B && rowCount.B < diagCount.B && rowCount.B < negDiagCount.B && (rowCount.X > 0 || rowCount.O > 0)){
+            }} else if(rowCount.B < colCount.B && rowCount.B < diagCount.B && rowCount.B < negDiagCount.B && (rowCount.X > 0 || rowCount.O > 0)){
             bestMove = rowCount;
-        } else if(diagCount.B < colCount.B && diagCount.B < rowCount.B && diagCount.B < negDiagCount.B && (diagCount.X > 0 || diagCount.O > 0)){
+        } else if(rowCount.X > 0 || rowCount.O > 0){
+            if(diagCount.B < colCount.B && diagCount.B < rowCount.B && diagCount.B < negDiagCount.B && (diagCount.X > 0 || diagCount.O > 0)){
             bestMove = diagCount;
-        } else if(negDiagCount.B < colCount.B && negDiagCount.B < rowCount.B && negDiagCount.B < diagCount.B && (negDiagCount.X > 0 || negDiagCount.O > 0)){
+        }} else if(negDiagCount.B < colCount.B && negDiagCount.B < rowCount.B && negDiagCount.B < diagCount.B && (negDiagCount.X > 0 || negDiagCount.O > 0)){
             bestMove = negDiagCount;
-        }
-        /*} else if(colCount.B == rowCount.B){
+        } else if(colCount.B == rowCount.B){
             var equalChance = Math.random();
             if(equalChance < .5){
                 bestMove =  colCount;
@@ -210,7 +216,8 @@ function AI(board, size) {
                 bestMove =  negDiagCount;
             } else {
                 bestMove =  diagCount;
-            }*/
+            }
+        }
 
 
         var cell = {
