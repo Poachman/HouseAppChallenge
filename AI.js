@@ -135,7 +135,7 @@ function AI(board, size) {
         } else if(rowCount.X > 0 || rowCount.O > 0){
             if(diagCount.B < colCount.B && diagCount.B < rowCount.B && diagCount.B < negDiagCount.B && (diagCount.X > 0 || diagCount.O > 0)){
             bestMove = diagCount;
-        }} else if(negDiagCount.B < colCount.B && negDiagCount.B < rowCount.B && negDiagCount.B < diagCount.B && (negDiagCount.X > 0 || negDiagCount.O > 0)){
+        } else if(negDiagCount.B < colCount.B && negDiagCount.B < rowCount.B && negDiagCount.B < diagCount.B && (negDiagCount.X > 0 || negDiagCount.O > 0)){
             bestMove = negDiagCount;
         } else if(colCount.B == rowCount.B){
             var equalChance = Math.random();
