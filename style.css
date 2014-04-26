@@ -1,5 +1,5 @@
 body {
-	width: 600px;
+	width: 800px;
 	margin: 0 auto;
 	background-color: #333;
 	color: #ebe2ca;
@@ -26,7 +26,8 @@ td.new { font-size: 60pt; }
 h1, h2 { text-align: center; }
 #options {
 	font-size: 24pt;
-	margin: 30px 10px;
+	margin: 30px auto;
+	width: 580px;
 }
 
 #options div span {
@@ -39,7 +40,7 @@ h1, h2 { text-align: center; }
 	float: right;
 	border: 2px solid;
 	padding-bottom: 10px;
-	margin: 0 3px;
+	margin: 0 3px 30px 3px;
 }
 
 option {

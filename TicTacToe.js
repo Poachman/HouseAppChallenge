@@ -9,22 +9,28 @@ $(document).ready(function() {
 	generateBoard();
 	Computer = new AI(board, SIZE);
 	$("td").click(cellClick);
-	$("#reset").click(function() {
-		$("td").text("").click(cellClick)
-			.removeClass("win")
-			.removeClass("new")
-			.removeClass("occupied");
-		$("tr").removeClass("win");
-		$("#turn").text("X's Turn");
-		turn = 0;
-	});
+	$("#reset").click(newGame);
 	$("label").click(AIButtonHandler);
 	$("#sizeSelect").change(sizeChange);
 });
 
+var newGame = function() {
+	$("td").text("").click(cellClick)
+		.removeClass("win")
+		.removeClass("new")
+		.removeClass("occupied");
+	$("tr").removeClass("win");
+	$("#turn").text("X's Turn");
+	turn = 0;
+}
+
 var sizeChange = function() {
 	SIZE = this.value.substr(0,1);
-	Computer.generateBoard();
+	$("#board").text("");
+	generateBoard();
+	Computer.setSize(SIZE)
+	Computer.generatePossibleMoves();
+	newGame();
 }
 
 var AIButtonHandler = function() {
