@@ -9,22 +9,28 @@ $(document).ready(function() {
 	generateBoard();
 	Computer = new AI(board, SIZE);
 	$("td").click(cellClick);
-	$("#reset").click(function() {
-		$("td").text("").click(cellClick)
-			.removeClass("win")
-			.removeClass("new")
-			.removeClass("occupied");
-		$("tr").removeClass("win");
-		$("#turn").text("X's Turn");
-		turn = 0;
-	});
+	$("#reset").click(newGame);
 	$("label").click(AIButtonHandler);
 	$("#sizeSelect").change(sizeChange);
 });
 
+var newGame = function(needsConfirm) {
+	$("td").text("").click(cellClick)
+		.removeClass("win")
+		.removeClass("new")
+		.removeClass("occupied");
+	$("tr").removeClass("win");
+	$("#turn").text("X's Turn");
+	turn = 0;
+}
+
 var sizeChange = function() {
 	SIZE = this.value.substr(0,1);
-	Computer.generateBoard();
+	$("#board").text("");
+	generateBoard();
+	Computer.setSize(SIZE)
+	Computer.generatePossibleMoves();
+	newGame(true);
 }
 
 var AIButtonHandler = function() {
@@ -196,4 +202,58 @@ function boardEmpty() {
 		return true;
 	}
 	return false;
+}
+
+function catsGame() {
+	for(var x = 0; x < SIZE; x++) {
+		for(var y = 0; y < SIZE; y++) {
+
+		}
+	}
+}
+
+function getCount(x, y) {
+	var colCount = {X: 0, O: 0, B: 0},
+	rowCount = {X: 0, O: 0, B: 0},
+	diagCount = {X: 0, O: 0, B: 0},
+	negDiagCount = {X: 0, O: 0, B: 0};
+	for(var i = 0; i < this.size; i++) {
+		if(i != x) {
+			if($(this.board.rows[y].cells[i]).text() == "O") { // if own move
+				rowCount.O++;
+			} else if($(this.board.rows[y].cells[i]).text() == "") {
+				rowCount.B++;
+			} else {
+				rowCount.X++;
+			}
+		}
+		if(i != y) {
+			if($(this.board.rows[i].cells[x]).text() == "O") { // if own move
+				colCount.O++;
+			} else if($(this.board.rows[i].cells[x]).text() == "") { // if empty
+				colCount.B++;
+			} else {
+				colCount.X++;
+			}
+		}
+		if(y == x && i != x) { // Diag
+			if($(this.board.rows[i].cells[i]).text() == "O") { // if own move
+				diagCount.O++;
+			} else if($(this.board.rows[i].cells[i]).text() == "") { // if empty
+				diagCount.B++;
+			} else {
+				diagCount.X++;
+			}
+		}
+		if(this.isOnNegDiag(x, y)) {  // Neg Diag
+			if($(this.board.rows[i].cells[(this.size - 1) - i]).text() == "O") { // if own move
+				negDiagCount.O++;
+			} else if($(this.board.rows[i].cells[(this.size - 1) - i]).text() == "") { // if empty
+				negDiagCount.B++;
+			} else {
+				negDiagCount.X++;
+			}
+		}
+	}
+	return {col: colCount, row: rowCount, diag: diagCount, negDiag: negDiagCount};
 }

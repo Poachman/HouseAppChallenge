@@ -5,7 +5,11 @@ function AI(board, size) {
     this.cellRanks = new Array(size^2)
     this.size = size;
 
-    this.generatePossibleMoves = function(board,size){
+    this.setSize = function(size) {
+    	this.size = size;
+    }
+
+    this.generatePossibleMoves = function(){
         for (var y = 0; y < this.size; y++) {
             this.possibleMoves.push(new Array());
             for (var x = 0; x < this.size; x++) {
