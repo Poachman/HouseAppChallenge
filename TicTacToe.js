@@ -14,11 +14,7 @@ $(document).ready(function() {
 	$("#sizeSelect").change(sizeChange);
 });
 
-var newGame = function(confirm) {
-	var reset = true;
-	if(!confirm("Are you sure you want to start a new game?")) {
-		reset = false;
-	}
+var newGame = function(needsConfirm) {
 	$("td").text("").click(cellClick)
 		.removeClass("win")
 		.removeClass("new")
