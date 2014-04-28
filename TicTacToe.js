@@ -12,7 +12,12 @@ $(document).ready(function() {
 	$("#reset").click(newGame);
 	$("label").click(AIButtonHandler);
 	$("#sizeSelect").change(sizeChange);
+	$("#diffSelect").change(diffChange);
 });
+
+var diffChange = function() {
+	console.log(this.value);
+}
 
 var newGame = function() {
 	$("td").text("").unbind("click").click(cellClick)
