@@ -15,7 +15,7 @@ $(document).ready(function() {
 });
 
 var newGame = function() {
-	$("td").text("").click(cellClick)
+	$("td").text("").unbind("click").click(cellClick)
 		.removeClass("win")
 		.removeClass("new")
 		.removeClass("occupied");
@@ -27,7 +27,7 @@ var newGame = function() {
 var sizeChange = function() {
 	var reset = true;
 	if(turn > 0) {
-		reset = confirm("Are you sure you want to start a new game?");
+		reset = confirm("This will start a new game.  Continue?");
 	}
 	if(reset) {
 		SIZE = this.value.substr(0,1);
@@ -44,7 +44,7 @@ var sizeChange = function() {
 var AIButtonHandler = function() {
 	var reset = true;
 	if(turn > 0) {
-		reset = confirm("Are you sure you want to start a new game?");
+		reset = confirm("This will start a new game.  Continue?");
 	}
 	if(reset) {
 		$("label").removeClass("btn");
@@ -82,6 +82,7 @@ var doAIMove = function() {
 }
 
 var cellClick = function() {
+	console.log("click");
 	Computer.board = board = document.getElementById('board');
 	if($(this).text() == "") {
 		switch(turn % 2) {
@@ -110,6 +111,7 @@ var cellClick = function() {
 
 		checkWinLoss();
 	} else {
+		console.log("occupied");
 		var td = $(this);
 		td.addClass("occupied");
 		window.setTimeout(function() {
