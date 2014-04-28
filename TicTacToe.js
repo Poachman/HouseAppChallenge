@@ -42,12 +42,21 @@ var sizeChange = function() {
 }
 
 var AIButtonHandler = function() {
-	$("label").removeClass("btn");
-	$(this).addClass("btn");
-	if($(this).prev().attr("id") == "Disabled") {
-		AIEnabled = false;
-	} else if ($(this).prev().attr("id") == "Enabled") {
-		AIEnabled = true;
+	var reset = true;
+	if(turn > 0) {
+		reset = confirm("Are you sure you want to start a new game?");
+	}
+	if(reset) {
+		$("label").removeClass("btn");
+		$(this).addClass("btn");
+		if($(this).prev().attr("id") == "Disabled") {
+			AIEnabled = false;
+		} else if ($(this).prev().attr("id") == "Enabled") {
+			AIEnabled = true;
+		}
+		newGame(true);
+	} else {
+		$(this).val(SIZE + "x" + SIZE);
 	}
 }
 
