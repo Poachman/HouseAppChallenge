@@ -141,7 +141,10 @@ var checkWinLoss = function() {
 	} else if(catsGame()) {
 		$("#turn").text("Cat's Game");
 		$("td").unbind("click").addClass("occupied");
+	} else {
+		return false;
 	}
+	return true;
 }
 
 var hasWon = function() {
