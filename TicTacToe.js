@@ -14,7 +14,7 @@ $(document).ready(function() {
 	$("#sizeSelect").change(sizeChange);
 });
 
-var newGame = function(needsConfirm) {
+var newGame = function() {
 	$("td").text("").click(cellClick)
 		.removeClass("win")
 		.removeClass("new")
@@ -25,12 +25,20 @@ var newGame = function(needsConfirm) {
 }
 
 var sizeChange = function() {
-	SIZE = this.value.substr(0,1);
-	$("#board").text("");
-	generateBoard();
-	Computer.setSize(SIZE)
-	Computer.generatePossibleMoves();
-	newGame(true);
+	var reset = true;
+	if(turn > 0) {
+		reset = confirm("Are you sure you want to start a new game?");
+	}
+	if(reset) {
+		SIZE = this.value.substr(0,1);
+		$("#board").text("");
+		generateBoard();
+		Computer.setSize(SIZE)
+		Computer.generatePossibleMoves();
+		newGame(true);
+	} else {
+		$(this).val(SIZE + "x" + SIZE);
+	}
 }
 
 var AIButtonHandler = function() {
