@@ -1,9 +1,12 @@
+html {height: 100%;}
+
 body {
 	width: 800px;
 	margin: 0 auto;
-	background-color: #120900;
 	color: #ebe2ca;
 	font-family: sans-serif;
+	background-color: #120900;
+	background-image: linear-gradient(to bottom right, #151000, #060400);
 }
 table {
 	border-collapse: collapse;
@@ -16,13 +19,16 @@ td {
 	text-align: center;
 	font-size: 0pt;
 	transition: font-size 0.3s ease-in-out, background 0.05s linear;
-	box-shadow: 0 0 40px 1px #333;
 }
 tr {transition: background 0.05s linear;}
 td.new { font-size: 40pt; }
-.win { background-color: #2A2; }
+.win {
+	background-color: #2A2;
+	background-image: linear-gradient(to bottom right, #2A2, #282);
+}
 .occupied {
 	background-color: #A22;
+	background-image: linear-gradient(to bottom right, #A22, #822);
 }
 
 #top h2 {
