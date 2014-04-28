@@ -16,6 +16,7 @@ td {
 	text-align: center;
 	font-size: 0pt;
 	transition: font-size 0.3s ease-in-out, background 0.05s linear;
+	box-shadow: 0 0 40px 1px #333;
 }
 tr {transition: background 0.05s linear;}
 td.new { font-size: 40pt; }
