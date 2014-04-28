@@ -17,6 +17,17 @@ $(document).ready(function() {
 
 var diffChange = function() {
 	console.log(this.value);
+	var reset = true;
+	if(turn > 0) {
+		reset = confirm("This will start a new game.  Continue?");
+	}
+	if(reset) {
+		// TODO:  Set difficulty
+		newGame(true);
+	} else {
+		// TODO: Reset to old value if unchanged
+//		$(this).val();
+	}
 }
 
 var newGame = function() {
