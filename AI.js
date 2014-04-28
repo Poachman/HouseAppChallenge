@@ -128,16 +128,21 @@ function AI(board, size) {
         //non-valid diagonal will still have 0. Exclude these from check or change logic to count the line with least blanks out of lines with x or o.
         //Check to see if line has x or o THEN check for least blanks.
         if(colCount.X > 0 || colCount.O > 0){
-            if(colCount.B < rowCount.B && colCount.B < diagCount.B && colCount.B < negDiagCount.B && (colCount.X > 0 || colCount.O > 0){
+            if(colCount.B < rowCount.B && colCount.B < diagCount.B && colCount.B < negDiagCount.B){
                 bestMove = colCount;
-            } else if(rowCount.B < colCount.B && rowCount.B < diagCount.B && rowCount.B < negDiagCount.B && (rowCount.X > 0 || rowCount.O > 0)){
-                bestMove = rowCount;
             }
         } else if(rowCount.X > 0 || rowCount.O > 0){
-            if(diagCount.B < colCount.B && diagCount.B < rowCount.B && diagCount.B < negDiagCount.B && (diagCount.X > 0 || diagCount.O > 0)){
-            bestMove = diagCount;
-        } else if(negDiagCount.B < colCount.B && negDiagCount.B < rowCount.B && negDiagCount.B < diagCount.B && (negDiagCount.X > 0 || negDiagCount.O > 0)){
-            bestMove = negDiagCount;
+            if(rowCount.B < colCount.B && rowCount.B < diagCount.B && rowCount.B < negDiagCount.B){
+                bestMove = rowCount;
+            }
+        } else if(diagCount.X > 0 || diagCount.O > 0){
+            if(diagCount.B < colCount.B && diagCount.B < rowCount.B && diagCount.B < negDiagCount.B){
+                bestMove = diagCount;
+            }
+        } else if(negDiagCount.X > 0 || negDiagCount.O > 0){
+            if(negDiagCount.B < colCount.B && negDiagCount.B < rowCount.B && negDiagCount.B < diagCount.B){
+                bestMove = negDiagCount;
+            }
         } else if(colCount.B == rowCount.B){
             var equalChance = Math.random();
             if(equalChance < .5){
@@ -231,9 +236,9 @@ function AI(board, size) {
             B: bestMove.B
         };
 
-        rank += cell.O ^ 3;
-        rank += cell.X ^ 2;
-        rank -= cell.B ^ 2;
+        rank += (cell.O ^ 3);
+        rank += (cell.X ^ 2);
+        rank -= (cell.B ^ 2);
 
         // TODO:
         // if both x & o in the col / row / diag make value 0
