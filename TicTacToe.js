@@ -49,7 +49,7 @@ var sizeChange = function() {
 		SIZE = this.value.substr(0,1);
 		$("#board").text("");
 		generateBoard();
-		Computer.setSize(SIZE)
+		Computer.setSize(SIZE);
 		Computer.generatePossibleMoves();
 		newGame(true);
 	} else {

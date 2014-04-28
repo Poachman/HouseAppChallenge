@@ -4,11 +4,19 @@ this.board = board;
 this.possibleMoves = new Array();
 this.size = size;
 
-for (var y = 0; y < this.size; y++) {
-	this.possibleMoves.push(new Array());
-	for (var x = 0; x < this.size; x++) {
-		this.possibleMoves[y].push(0);
+this.generatePossibleMoves = function() {
+	for (var y = 0; y < this.size; y++) {
+		this.possibleMoves.push(new Array());
+		for (var x = 0; x < this.size; x++) {
+			this.possibleMoves[y].push(0);
+		}
 	}
+}
+
+this.generatePossibleMoves();
+
+this.setSize = function(size) {
+	this.size = SIZE;
 }
 
 this.getMove = function(turn) {
@@ -101,6 +109,30 @@ this.getCellRank = function(x, y) {
 		}
 	}
 
+	var cell = {
+		X: rowCount.X + colCount.X + diagCount.X + negDiagCount.X,
+		O: rowCount.O + colCount.O + diagCount.O + negDiagCount.O,
+		B: rowCount.B + colCount.B + diagCount.B + negDiagCount.B
+	};
+
+	rank += cell.O ^ 4;
+	rank += cell.X ^ 2;
+	rank -= cell.B ^ 2;
+
+
+	if(!(rowCount.X == 0 || rowCount.O == 0)) {
+		rank = 0;
+	}
+	if(!(colCount.X == 0 || colCount.O == 0)) {
+		rank = 0;
+	}
+	if(!(negDiagCount.X == 0 || negDiagCount.O == 0)) {
+		rank = 0;
+	}
+	if(!(diagCount.X == 0 || diagCount.O == 0)) {
+		rank = 0;
+	}
+
 	// block if opponent about to win
 	if(colCount.X == (this.size -1) || rowCount.X == (this.size -1) || diagCount.X == (this.size -1) || negDiagCount.X == (this.size -1))
 		rank += this.size * 10;
@@ -108,17 +140,6 @@ this.getCellRank = function(x, y) {
 	// Win
 	if(colCount.O == (this.size -1) || rowCount.O == (this.size -1) || diagCount.O == (this.size -1) || negDiagCount.O == (this.size -1))
 		rank += this.size * 20;
-
-
-	var cell = {
-		X: rowCount.X + colCount.X + diagCount.X,
-		O: rowCount.O + colCount.O + diagCount.O,
-		B: rowCount.B + colCount.B + diagCount.B
-	};
-
-	rank += cell.O ^ 3;
-	rank += cell.X ^ 2;
-	rank -= cell.B ^ 2;
 
 	return rank;
 }
