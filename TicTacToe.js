@@ -42,7 +42,6 @@ var sizeChange = function() {
 }
 
 var AIButtonHandler = function() {
-	console.log("asdf");
 	$("label").removeClass("btn");
 	$(this).addClass("btn");
 	if($(this).prev().attr("id") == "Disabled") {
@@ -121,6 +120,9 @@ var checkWinLoss = function() {
 		}
 		$("#wins").text("X: " + wins.X + " / O: " + wins.O);
 	} else if(boardFull()) {
+		$("#turn").text("Board Full");
+		$("td").unbind("click").addClass("occupied");
+	} else if(catsGame()) {
 		$("#turn").text("Cat's Game");
 		$("td").unbind("click").addClass("occupied");
 	}
@@ -213,55 +215,89 @@ function boardEmpty() {
 }
 
 function catsGame() {
+	var count = {},
+		numCompletable = 0;
 	for(var x = 0; x < SIZE; x++) {
-		for(var y = 0; y < SIZE; y++) {
-
+		count = getColCount(x);
+		if(count.X == 0 || count.O == 0) {
+			numCompletable++;
 		}
+	}
+	for(var y = 0; y < SIZE; y++) {
+		count = getRowCount(y);
+		if(count.X == 0 || count.O == 0) {
+			numCompletable++;
+		}
+	}
+
+	count = getDiagCount();
+	if(count.X == 0 || count.O == 0) {
+		numCompletable++;
+	}
+
+	count = getNegDiagCount();
+	if(count.X == 0 || count.O == 0) {
+		numCompletable++;
+	}
+	if(numCompletable == 0) {
+		return true;
+	} else {
+		return false;
 	}
 }
 
-function getCount(x, y) {
-	var colCount = {X: 0, O: 0, B: 0},
-	rowCount = {X: 0, O: 0, B: 0},
-	diagCount = {X: 0, O: 0, B: 0},
-	negDiagCount = {X: 0, O: 0, B: 0};
-	for(var i = 0; i < this.size; i++) {
-		if(i != x) {
-			if($(this.board.rows[y].cells[i]).text() == "O") { // if own move
-				rowCount.O++;
-			} else if($(this.board.rows[y].cells[i]).text() == "") {
-				rowCount.B++;
-			} else {
-				rowCount.X++;
-			}
-		}
-		if(i != y) {
-			if($(this.board.rows[i].cells[x]).text() == "O") { // if own move
-				colCount.O++;
-			} else if($(this.board.rows[i].cells[x]).text() == "") { // if empty
-				colCount.B++;
-			} else {
-				colCount.X++;
-			}
-		}
-		if(y == x && i != x) { // Diag
-			if($(this.board.rows[i].cells[i]).text() == "O") { // if own move
-				diagCount.O++;
-			} else if($(this.board.rows[i].cells[i]).text() == "") { // if empty
-				diagCount.B++;
-			} else {
-				diagCount.X++;
-			}
-		}
-		if(this.isOnNegDiag(x, y)) {  // Neg Diag
-			if($(this.board.rows[i].cells[(this.size - 1) - i]).text() == "O") { // if own move
-				negDiagCount.O++;
-			} else if($(this.board.rows[i].cells[(this.size - 1) - i]).text() == "") { // if empty
-				negDiagCount.B++;
-			} else {
-				negDiagCount.X++;
-			}
+function getColCount(col) {
+	var colCount = {X: 0, O: 0, B: 0};
+	for(var i = 0; i < SIZE; i++) {
+		if($(board.rows[i].cells[col]).text() == "O") {
+			colCount.O++;
+		} else if($(board.rows[i].cells[col]).text() == "") {
+			colCount.B++;
+		} else {
+			colCount.X++;
 		}
 	}
-	return {col: colCount, row: rowCount, diag: diagCount, negDiag: negDiagCount};
+	return colCount;
+}
+
+function getRowCount(row) {
+	var rowCount = {X: 0, O: 0, B: 0};
+	for(var i = 0; i < SIZE; i++) {
+		if($(board.rows[row].cells[i]).text() == "O") {
+			rowCount.O++;
+		} else if($(board.rows[row].cells[i]).text() == "") {
+			rowCount.B++;
+		} else {
+			rowCount.X++;
+		}
+	}
+	return rowCount;
+}
+
+function getDiagCount() {
+	var diagCount = {X: 0, O: 0, B: 0};
+	for(var i = 0; i < SIZE; i++) {
+		if($(board.rows[i].cells[i]).text() == "O") {
+			diagCount.O++;
+		} else if($(board.rows[i].cells[i]).text() == "") {
+			diagCount.B++;
+		} else {
+			diagCount.X++;
+		}
+	}
+	return diagCount;
+}
+
+function getNegDiagCount() {
+	var negDiagCount = {X: 0, O: 0, B: 0};
+	for(var i = 0; i < SIZE; i++) {
+		if($(board.rows[i].cells[(SIZE - 1) - i]).text() == "O") { // if own move
+			negDiagCount.O++;
+		} else if($(board.rows[i].cells[(SIZE - 1) - i]).text() == "") { // if empty
+			negDiagCount.B++;
+		} else {
+			negDiagCount.X++;
+		}
+	}
+	return negDiagCount;
 }
