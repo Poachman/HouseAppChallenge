@@ -207,20 +207,10 @@ function AI(board, size) {
         // TODO:
         // if both x & o in the col / row / diag make value 0
 
-this.getMove = function(turn) {
-	var move = this.getRandMove(board);
-	if(turn == 1) {
         return rank;
 
 
-this.rankCells = function() {
-	console.clear();
-
-	var cell = {
-		X: rowCount.X + colCount.X + diagCount.X + negDiagCount.X,
-		O: rowCount.O + colCount.O + diagCount.O + negDiagCount.O,
-		B: rowCount.B + colCount.B + diagCount.B + negDiagCount.B
-	};
+    };
 
 
 
@@ -247,11 +237,11 @@ this.rankCells = function() {
         return move;
     }
 
-this.isOccupied = function(move) {
-	if($(this.board.rows[move.y].cells[move.x]).text() == "") {
-		return false;
-	}
-	return true;
-}
+    this.isOccupied = function(move) {
+        if($(this.board.rows[move.y].cells[move.x]).text() == "") {
+            return false;
+        }
+        return true;
+    }
 
 }
