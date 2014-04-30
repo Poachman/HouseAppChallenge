@@ -25,18 +25,34 @@ function AI(board, size) {
         if(turn == 1) {
             return move;
         } else {
-            return this.rankCells();;
+            return this.rankCells();
         }
     }
 
     this.printBoardMoves = function() {
+        var highestMove = [];
         for (var y = 0; y < this.size; y++) {
             var row = "";
             for (var x = 0; x < this.size; x++) {
                 row += this.possibleMoves[y][x] + " ";
+                highestMove.push(this.possibleMoves[y][x]);
+                console.log(this.possibleMoves[y][x]);
             }
             console.log(row);
         }
+        var topMoves = [];
+        for(var i = 0; i < 5; i++) {
+            var greatestMove = Math.max.apply(Math, highestMove);
+            topMoves.push(greatestMove);
+            console.log(highestMove.length);
+            console.log(greatestMove);
+            var index = highestMove.indexOf(greatestMove);
+            console.log(index);
+            highestMove.splice(index, 1);
+            console.log(highestMove.length);
+            //console.log(highestMove.length);
+        }
+        console.log(topMoves);
     }
 
 
@@ -44,18 +60,59 @@ function AI(board, size) {
         // TODO: Modify to pick top 3 or so moves
         this.clearPossibleMoves();
         var bestMove = {x:-1, y:-1, value:-100};
+        var moveData = [];
+        var rankValue = [];
         for (var y = 0; y < this.size; y++) {
             for (var x = 0; x < this.size; x++) {
                 if($(this.board.rows[y].cells[x]).text() == "") {
                     this.cellRanks[x * size + y ] = {X: x, Y: y, rank: this.getCellRank(x,y)};
                     this.possibleMoves[y][x] = this.getCellRank(x, y);
-                    if(this.possibleMoves[y][x] > bestMove.value) {
-                        bestMove = {x: x, y: y, value: this.possibleMoves[y][x]};
-                    }
+                    bestMove = {x: x, y: y, value: this.possibleMoves[y][x]};
+                    moveData.push(bestMove);
+                    rankValue.push(bestMove.value);
                 }
             }
         }
-        return bestMove;
+        rankValue.sort(function(a, b){return b-a}); //sort descending
+        var topValues = [];
+        var maxRange = moveData.length < 5 ? moveData.length : 5;
+        for(var i = 0; i < maxRange; i++){
+            topValues.push(rankValue[i]);
+        }
+        var weightedValues = [];
+        var totalRankValues = 0;
+        for(var k = 0; k < topValues.length; k++){
+            totalRankValues += topValues[k];
+        }
+        console.log(topValues);
+        for(var n = 0; n < topValues.length; n++){
+            var weightedValue = topValues[n] / totalRankValues * 100;
+            if(n > 0){
+                weightedValue += weightedValues[n - 1];
+            }
+            weightedValues.push(weightedValue);
+        }
+        console.log(weightedValues);
+        var range = Math.floor(Math.random() * 100);
+        console.log(range);
+        var bestMoveValue = 0;
+        for(var z = weightedValues.length - 1; z >= 0; z--){
+            if(weightedValues[z] <= range){
+                bestMoveValue = topValues[z + 1];
+                break;
+            } else if(z == 0){
+                bestMoveValue = topValues[z];
+            }
+        }
+
+
+        console.log(bestMoveValue);
+        for(var j = 0; j < moveData.length; j++) {
+            if (moveData[j].value == bestMoveValue) {
+                console.log(moveData[j]);
+                return moveData[j];
+            }
+        }
     }
 
     this.clearPossibleMoves = function() {
@@ -111,143 +168,49 @@ function AI(board, size) {
                 }
             }
         }
-
+        //TODO: Expand for 7 instances
         // block if opponent about to win
-        //if(colCount.X == (this.size -1) || rowCount.X == (this.size -1) || diagCount.X == (this.size -1) || negDiagCount.X == (this.size -1))
-            //rank += this.size * 10;
+        if(colCount.X == (this.size -1) || rowCount.X == (this.size -1) || diagCount.X == (this.size -1) || negDiagCount.X == (this.size -1))
+            rank += this.size * 15;
 
+        //block if opponent has 2 moves left to win
+        if(colCount.X == (this.size -2) || rowCount.X == (this.size -2) || diagCount.X == (this.size -2) || negDiagCount.X == (this.size -2))
+            rank += this.size * 10;
+
+        //block if 3 moves left
+        if(colCount.X == (this.size -3) || rowCount.X == (this.size -3) || diagCount.X == (this.size -3) || negDiagCount.X == (this.size -3))
+            rank += this.size * 7;
+        //block if 4 moves left
+        if(colCount.X == (this.size -4) || rowCount.X == (this.size -4) || diagCount.X == (this.size -4) || negDiagCount.X == (this.size -4))
+            rank += this.size * 5;
         // Win
-        //if(colCount.O == (this.size -1) || rowCount.O == (this.size -1) || diagCount.O == (this.size -1) || negDiagCount.O == (this.size -1))
-            //rank += this.size * 20;
+        if(colCount.O == (this.size -1) || rowCount.O == (this.size -1) || diagCount.O == (this.size -1) || negDiagCount.O == (this.size -1))
+            rank += this.size * 20;
 
-        var bestMove = {X: 0, O: 0, B: 0};
+
 
         //TODO:
-        //says must have least amount of blanks AND at least one x or o. If something has least blanks but no x or o, any other line with an x or o
-        //that has least amount of blanks but still has x or o will not count because it doesn't technically have least blanks. May have 1 but a
-        //non-valid diagonal will still have 0. Exclude these from check or change logic to count the line with least blanks out of lines with x or o.
-        //Check to see if line has x or o THEN check for least blanks.
-        if(colCount.X > 0 || colCount.O > 0){
-            if(colCount.B < rowCount.B && colCount.B < diagCount.B && colCount.B < negDiagCount.B){
-                bestMove = colCount;
-            }
-        } else if(rowCount.X > 0 || rowCount.O > 0){
-            if(rowCount.B < colCount.B && rowCount.B < diagCount.B && rowCount.B < negDiagCount.B){
-                bestMove = rowCount;
-            }
-        } else if(diagCount.X > 0 || diagCount.O > 0){
-            if(diagCount.B < colCount.B && diagCount.B < rowCount.B && diagCount.B < negDiagCount.B){
-                bestMove = diagCount;
-            }
-        } else if(negDiagCount.X > 0 || negDiagCount.O > 0){
-            if(negDiagCount.B < colCount.B && negDiagCount.B < rowCount.B && negDiagCount.B < diagCount.B){
-                bestMove = negDiagCount;
-            }
-        } else if(colCount.B == rowCount.B){
-            var equalChance = Math.random();
-            if(equalChance < .5){
-                bestMove =  colCount;
-            } else {
-                bestMove =  rowCount;
-            }
-        } else if(colCount.B == diagCount.B){
-            var equalChance = Math.random();
-            if(equalChance < .5){
-                bestMove =  colCount;
-            } else {
-                bestMove =  diagCount;
-            }
-        } else if(colCount.B == negDiagCount.B){
-            var equalChance = Math.random();
-            if(equalChance < .5){
-                bestMove =  colCount;
-            } else {
-                bestMove =  negDiagCount;
-            }
-        } else if(rowCount.B == colCount.B){
-            var equalChance = Math.random();
-            if(equalChance < .5){
-                bestMove =  rowCount;
-            } else {
-                bestMove =  colCount;
-            }
-        } else if(rowCount.B == diagCount.B){
-            var equalChance = Math.random();
-            if(equalChance < .5){
-                bestMove =  rowCount;
-            } else {
-                bestMove =  diagCount;
-            }
-        } else if(rowCount.B == negDiagCount.B){
-            var equalChance = Math.random();
-            if(equalChance < .5){
-                bestMove =  rowCount;
-            } else {
-                bestMove =  negDiagCount;
-            }
-        } else if(diagCount.B == colCount.B){
-            var equalChance = Math.random();
-            if(equalChance < .5){
-                bestMove =  diagCount;
-            } else {
-                bestMove =  colCount;
-            }
-        } else if(diagCount.B == rowCount.B){
-            var equalChance = Math.random();
-            if(equalChance < .5){
-                bestMove =  diagCount;
-            } else {
-                bestMove =  rowCount;
-            }
-        } else if(diagCount.B == negDiagCount.B){
-            var equalChance = Math.random();
-            if(equalChance < .5){
-                bestMove =  diagCount;
-            } else {
-                bestMove =  negDiagCount;
-            }
-        } else if(negDiagCount.B == colCount.B){
-            var equalChance = Math.random();
-            if(equalChance < .5){
-                bestMove =  negDiagCount;
-            } else {
-                bestMove =  colCount;
-            }
-        } else if(negDiagCount.B == rowCount.B){
-            var equalChance = Math.random();
-            if(equalChance < .5){
-                bestMove =  negDiagCount;
-            } else {
-                bestMove =  rowCount;
-            }
-        } else if(negDiagCount.B == diagCount.B){
-            var equalChance = Math.random();
-            if(equalChance < .5){
-                bestMove =  negDiagCount;
-            } else {
-                bestMove =  diagCount;
-            }
-        }
 
 
-        var cell = {
-            X: bestMove.X,
-            O: bestMove.O,
-            B: bestMove.B
+
+        /*var cell = {
+            X: colCount.X + rowCount.X + diagCount.X + negDiagCount.X,
+            O: colCount.O + rowCount.O + diagCount.O + negDiagCount.O,
+            B: colCount.B + rowCount.B + diagCount.B + negDiagCount.B
         };
 
         rank += (cell.O ^ 3);
         rank += (cell.X ^ 2);
-        rank -= (cell.B ^ 2);
+        rank -= (cell.B ^ 2);*/
+
 
         // TODO:
         // if both x & o in the col / row / diag make value 0
 
         return rank;
 
-        var totalRank = 0;
-        totalRank += rank;
-    }
+
+    };
 
 
 
