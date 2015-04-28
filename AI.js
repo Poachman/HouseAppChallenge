@@ -36,7 +36,7 @@ function AI(board, size) {
             for (var x = 0; x < this.size; x++) {
                 row += this.possibleMoves[y][x] + " ";
                 highestMove.push(this.possibleMoves[y][x]);
-                console.log(this.possibleMoves[y][x]);
+
             }
             console.log(row);
         }
@@ -44,15 +44,14 @@ function AI(board, size) {
         for(var i = 0; i < 5; i++) {
             var greatestMove = Math.max.apply(Math, highestMove);
             topMoves.push(greatestMove);
-            console.log(highestMove.length);
-            console.log(greatestMove);
+
             var index = highestMove.indexOf(greatestMove);
-            console.log(index);
+
             highestMove.splice(index, 1);
-            console.log(highestMove.length);
+
             //console.log(highestMove.length);
         }
-        console.log(topMoves);
+
     }
 
 
@@ -185,9 +184,16 @@ function AI(board, size) {
             rank += this.size * 5;
         // Win
         if(colCount.O == (this.size -1) || rowCount.O == (this.size -1) || diagCount.O == (this.size -1) || negDiagCount.O == (this.size -1))
+            rank += this.size * 25;
+
+        if(colCount.O == (this.size -2) || rowCount.O == (this.size -2) || diagCount.O == (this.size -2) || negDiagCount.O == (this.size -2))
+            rank += this.size * 22;
+
+        if(colCount.O == (this.size -3) || rowCount.O == (this.size -3) || diagCount.O == (this.size -3) || negDiagCount.O == (this.size -3))
             rank += this.size * 20;
 
-
+        if(colCount.O == (this.size -4) || rowCount.O == (this.size -4) || diagCount.O == (this.size -4) || negDiagCount.O == (this.size -4))
+            rank += this.size * 18;
 
         //TODO:
 
